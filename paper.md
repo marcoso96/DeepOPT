@@ -81,11 +81,19 @@ Once these steps are completed, the 'Reconstruction' button allows for executing
 
 # Use cases
 
-We present three parallel tomography use cases for the napari-tomodl plugin based on raw data acquisitions:
+We present three parallel tomography use cases for the napari-tomodl plugin:
 
+1. Optical projection tomography (OPT)
+Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained  using 4x objective projections. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 0.5 degrees. The acquired projections had 700 × 700 pixels with a resolution of 1.3 μm per pixel [bassi2015optical]. These projections were resampled to have a resolution of 100 × 100 pixels in order to reduce the computational complexity.
+of the training phase.
+2. High resolution X-ray acquisition (XRAY)
+Projection data from a foramnifer were obtained using 20 KeV X rays and a high resolution detector with 1024x1280 pixels (5 μm per pixel). A rotatory suppert was used to acquire 360 prjections with 1 degree interval. The projections were resampled to 256x320 to reduce computational complexity. The raw data was processed using phase contrast techniques to improve contrast [@Paganin2002]. 
+3. Positron emission tomography (PET)
+Whole-body PET/CT images were acquired using a Biograph mCT PET/CT scanner (Siemens, Healthcare GmbH, Erlangen, Germany) and were initiated approximately 60 min after intravenous tracer administration. Diagnostic CT scans of the neck, thorax, abdomen and pelvis (200 reference mAs; 120 kV) were acquired 90 sec after intravenous injection of a contrast agent (90–120 ml Ultravist 370, Bayer AG) (https://autopet.grand-challenge.org/Dataset/) .
 
+In Fig. \autoref{fig:data} we show examples of the projections used for the reconstrction process and a veiew of the 3D volume otained using the plugin with the ToMoDL option.
 
-
+![Examples of the applicaton of the plugin. Left panels: examples of projection data for the thrre cases: OPT, XRAY and PET. Right panels: view of the reconstructed 3D volume for the same cases.\label{fig:data}](./napari-tomodl/figures/Figura1.pdf)
 
 
 # Citations
