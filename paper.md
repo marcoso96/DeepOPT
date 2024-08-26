@@ -3,9 +3,10 @@ title: 'napari-ToMoDL: A Python package with a napari plugin for accelerated rec
 tags:
 authors:
   - name: Marcos Obando
-    orcid: 0000-0000-0000-0000
     equal-contrib: true
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
+    affiliation: 1 # (Multiple affiliations must be quoted)
+  - name: Minh Nhat Trinh
+    affiliation: 3 # (Multiple affiliations must be quoted)
   - name: Germán Mato 
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: 2
@@ -13,9 +14,9 @@ authors:
     corresponding: true # (This is how to denote the corresponding author)
     affiliation: 3
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Centrum Wiskunde & Informatica, the Netherlands
    index: 1
- - name: Institution Name, Country c
+ - name: 
    index: 2
  - name: Independent Researcher, Country
    index: 3
@@ -32,7 +33,7 @@ aas-journal: Astrophysical Journal <- The name of the AAS journal.
 
 Recent advances in different tomographic methodologies have contributed to a broad range of applications and research areas, from x-ray imaging dealing with medical [@ginat2014advances] and industrial [@de2014industrial] applications to optical sectioning, which provides a mesoscopic framework to visualise translucent samples [@sharpe2004optical], just to name a few. Once data is acquired, we face several challenges: first, artifacts should be corrected in a preprocessing stage if needed, then  raw projections should be reconstructed via a mathematical algorithm, and, finally, the results should be visualized in a suitable way.
 
-We present here napari-ToMoDL, a plugin of the napari viewer [@chiu2022napari]  that contains four main methods for tomographic reconstruction: filtered backprojection (FBP) [@kak2001principles], Two-step Iterative Shrinkage/Thresholding (TwIST) [@bioucas2007new], U-Net [@ronneberger2015u] and ToMoDL [@obando2023model],  being the last our recent introduced method for optical projection tomography reconstruction. Tne neural network based techniques have been trained in the PyTorch framework [@NEURIPS2019_9015] and they display excellent results when the reconstruction is performed with a very sparse set of projections [@obando2023model]. The plugin also offers the capability of axis alignment via variance maximization [@walls2005correction]. 
+We present here napari-ToMoDL, a plugin of the napari viewer [@chiu2022napari]  that contains four main methods for tomographic reconstruction: filtered backprojection (FBP) [@kak2001principles], Two-step Iterative Shrinkage/Thresholding (TwIST) [@bioucas2007new], U-Net [@ronneberger2015u] and ToMoDL [@obando2023model],  being the last our recent introduced method for optical projection tomography reconstruction. Tne neural network based techniques have been trained in the PyTorch framework [@NEURIPS2019_9015] and they display excellent results when the reconstruction is performed with a very sparse set of projections [@obando2023model]. The plugin also offers the capability of axis alignment via manual selection and variance maximization [@walls2005correction]. 
 
 The input to the plugin is a stack of projections. The user only has to determine which is the rotation axis of the system (vertical or horizontal) and choose the reconstruction method. Additional options include:
 
@@ -75,49 +76,24 @@ In Fig. \autoref{fig:workflow}, a complete pipeline describing the usage of napa
 
 Once these steps are completed, the 'Reconstruction' button allows for executing the desired specifications for image recovery from projections. In napari, outputs are written as image layers which can be analysed by other plugins and saved in different formats. One special feature that napari offers on top of 3D images is volume renderization, useful once a full volume is computed with the presented plugin. Normalization of intensity and contrast can be also applied to specific layers using napari's built-in tools in the top-left bar.
 
-
-
-![Napari-tomodl usage pipeline, described step-by-step from a stack of raw projection acquisition to reconstruction of single specific slice or full volume.\label{fig:Workflow}](./napari-tomodl/figures/Figura1.pdf)
+![\textbf{Napari-tomodl usage pipeline.} step-by-step from a stack of raw projection acquisition to reconstruction of single specific slice or full volume.\label{fig:Workflow}](./napari-tomodl/figures/Figura1.pdf)
 
 # Use cases
 
 We present three parallel tomography use cases for the napari-tomodl plugin:
 
 1. Optical projection tomography (OPT)
-Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained  using 4x objective projections. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 0.5 degrees. The acquired projections had 700 × 700 pixels with a resolution of 1.3 μm per pixel [bassi2015optical]. These projections were resampled to have a resolution of 100 × 100 pixels in order to reduce the computational complexity.
+Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained using a 4x magnification objective. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 1 degrees. The acquired projections had 700 × 700 pixels with a resolution of 1.3 μm per pixel [@bassi2015optical]. These projections were resampled to have a resolution of 100 × 100 pixels in order to reduce the computational complexity.
 of the training phase.
-2. High resolution X-ray acquisition (XRAY)
+2. High resolution X-ray parallel tomography (X-ray CT)
 Projection data from a foramnifera were obtained using 20 KeV X rays and a high resolution detector with 1024x1280 pixels (5 μm per pixel). A rotatory suppert was used to acquire 360 prjections with 1 degree interval. The projections were resampled to 256x320 to reduce computational complexity. The raw data was processed using phase contrast techniques to improve contrast [@Paganin2002]. 
-3. Positron emission tomography (PET)
-Whole-body PET/CT images were acquired using a Biograph mCT PET/CT scanner (Siemens, Healthcare GmbH, Erlangen, Germany) and were initiated approximately 60 min after intravenous tracer administration. Diagnostic CT scans of the neck, thorax, abdomen and pelvis (200 reference mAs; 120 kV) were acquired 90 sec after intravenous injection of a contrast agent (90–120 ml Ultravist 370, Bayer AG) (https://autopet.grand-challenge.org/Dataset/) .
+3. High Throughput Tomography (HiTT).
+Projection data from a mosquito gut, osmium stained and resin embedded using a phase-contrast imaging platform for life-science samples on the EMBL beamline [@albers2024high]. The HiTT dataset contains 1800 projections with 0.1 degrees interval with a size of 2048x1800 pixels each (0.65 μm per pixel).
 
-In Fig. \autoref{fig:data} we show examples of the projections used for the reconstrction process and a veiew of the 3D volume otained using the plugin with the ToMoDL option.
+In Fig. \autoref{fig:Figura2} we show examples of the projections used for the reconstrction process and a veiew of the 3D volume otained using the plugin with the ToMoDL option.
 
-![Examples of the applicaton of the plugin. Left panels: examples of projection data for the thrre cases: OPT, XRAY and PET. Right panels: view of the reconstructed 3D volume for the same cases.\label{fig:data}](./napari-tomodl/figures/Figura1.pdf)
+![\textbf{Reconstruction use cases}. Left panels: 2D reconstruction slices using undersampled data (10 degrees interval) with FBP and ToMoDL methods (OPT, X-ray and synchrotron HiTT). Right panels: 3D views of undersampled reconstructions.\label{fig:Figura2}](./napari-tomodl/figures/Figura2.pdf)
 
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
 
 # Acknowledgements
 
