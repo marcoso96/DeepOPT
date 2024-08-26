@@ -76,7 +76,7 @@ In Fig. \autoref{fig:workflow}, a complete pipeline describing the usage of napa
 
 Once these steps are completed, the 'Reconstruction' button allows for executing the desired specifications for image recovery from projections. In napari, outputs are written as image layers which can be analysed by other plugins and saved in different formats. One special feature that napari offers on top of 3D images is volume renderization, useful once a full volume is computed with the presented plugin. Normalization of intensity and contrast can be also applied to specific layers using napari's built-in tools in the top-left bar.
 
-![\textbf{Napari-tomodl usage pipeline.} step-by-step from a stack of raw projection acquisition to reconstruction of single specific slice or full volume.\label{fig:Workflow}](./napari-tomodl/figures/Figura1.pdf)
+![\textbf{Napari-tomodl usage pipeline.} step-by-step from a stack of raw projection acquisition to reconstruction of single specific slice or full volume.\label{fig:Workflow}](./napari-tomodl/figures/Figura1_v2.pdf)
 
 # Use cases
 
