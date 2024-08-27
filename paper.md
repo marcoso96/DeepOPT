@@ -4,29 +4,33 @@ tags:
 authors:
   - name: Marcos Obando
     equal-contrib: true
-    affiliation: 1 # (Multiple affiliations must be quoted)
+    affiliation: "1,2" # (Multiple affiliations must be quoted)
   - name: Minh Nhat Trinh
     affiliation: 3 # (Multiple affiliations must be quoted)
   - name: Germán Mato 
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: 2
+    affiliation: "5,6"
   - name: Teresa Correia
     corresponding: true # (This is how to denote the corresponding author)
-    affiliation: 3
+    affiliation: "3,4"
 affiliations:
- - name: Centrum Wiskunde & Informatica, the Netherlands
+ - name: Centrum Wiskunde & Informatica, Amsterdam, the Netherlands
    index: 1
- - name: 
+ - name: University of Eastern Finland, Kuopio, Finland
    index: 2
- - name: Independent Researcher, Country
+ - name: Centre of Marine Sciences, University of Algarve, Faro, Portugal
    index: 3
+ - name: School of Biomedical Engineering and Imaging Sciences, King’s College London, London, United Kingdom
+   index: 4
+ - name: Medical Physics Department, Centro Atómico Bariloche, Bariloche, Argentina
+   index: 5
+ - name: Instituto Balseiro, Bariloche, Argentina
+   index: 6
 date: 
 bibliography: paper.bib
 
 # Optional fields if submitting to a AAS journal too, see this blog post:
 # https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
@@ -42,9 +46,10 @@ The input to the plugin is a stack of projections. The user only has to determin
 - clip to circle
 - filtering
 - full or partial volume reconstruction
+- intensity data inversion
 - choice of use of CPU or GPU for the reconstruction.
 
-napari-ToMoDL is integrally based on well-established open source software libraries such as NumPy [@harris2020array], Scipy [@virtanen2020scipy] and scikit-image [@scikit-image]. The neural network methods in the software are implemented in PyTorch [@NEURIPS2019_9015]. The computational burden that the Radon transform poses when applied iteratively is  overcome by using  TorchRadon [@ronchetti2020torchradon], a fast differentiable routine for computed tomography reconstruction developed as a PyTorch extension.
+napari-ToMoDL is integrally based on well-established open source software libraries such as NumPy [@harris2020array], Scipy [@virtanen2020scipy] and scikit-image [@scikit-image]. The neural network methods in the software are implemented in PyTorch [@NEURIPS2019_9015]. The computational burden that the Radon transform poses when applied iteratively is  overcome by using an adapted version of TorchRadon [@ronchetti2020torchradon], a fast differentiable routine for computed tomography reconstruction developed as a PyTorch extension, made available for different operating system distributions.
 
 
 # Statement of need
@@ -62,7 +67,7 @@ The reconstruction methods implemented in the the packages are:
 - **FBP** Filtered backprojection is a widely used method for tomographic reconstruction. The method involves filtering the data in the frequency domain and then backprojecting the filtered data onto the 3D volume. The filter used in FBP is typically a ramp filter, which amplifies high-frequency components of the data. FBP is computationally efficient and works well for simple geometries, such as parallel-beam tomography.
 - **TwIST** (Two-step Iterative Shrinkage and Thresholding) is an iterative method for tomographic reconstruction, which involves iteratively solving a convex optimisation problem such as (1) using the shrinkage and thresholding ­ technique for each 2D slice. In this implementation, we chose to minimise the total variation norm as our regularising function. TwIST can handle a wide range of geometries and produces high-quality reconstructions. However, it is computationally expensive and requires careful tuning of ­ parameters [@correia2015accelerated].
 - **Unet** is a deep learning architecture for tomographic reconstruction that uses a U-shaped network with skip ­connections [@ronneberger2015u] . The proposed network in [@davis2019convolutional] processes undersampled FBP reconstructions and outputs streak-free 2D images. The skip connections help preserve fine details in the reconstruction and the network can handle complex geometries and noisy data. While reconstruction times for this approach are short, making it suitable for real-time imaging, training a U-Net requires a large amount of data.
-- **ToMODL** is a method that combines  iteration over a data consistency step and an image domain artefact removal step achieved by a convolutional neural network. The data consistenmcy step is implemented using the gradient conjugate algorithm and the artefact removal via a deep neural network  with shared weights across iterations.  As the forward model is explicitly accounted for, the number of network parameters to be learned is significantly reduced compared to direct inversion approaches, thereby providing better performance in training data constrained settings [@obando2023model].
+- **ToMoDL** is a method that combines iteration over a data consistency step and an image domain artefact removal step achieved by a convolutional neural network. The data consistenmcy step is implemented using the gradient conjugate algorithm and the artefact removal via a deep neural network  with shared weights across iterations.  As the forward model is explicitly accounted for, the number of network parameters to be learned is significantly reduced compared to direct inversion approaches, thereby providing better performance in training data constrained settings [@obando2023model].
 
 In Fig. \autoref{fig:workflow}, a complete pipeline describing the usage of napari-tomodl is presented. Based on the single-channel raw data acquired by a parallel tomography use-case, this ordered stack of files undergoes the following steps in order to obtain ready-to-analyse reconstructions:
 
@@ -90,14 +95,12 @@ Projection data from a foramnifera were obtained using 20 KeV X rays and a high 
 3. High Throughput Tomography (HiTT).
 Projection data from a mosquito gut, osmium stained and resin embedded using a phase-contrast imaging platform for life-science samples on the EMBL beamline [@albers2024high]. The HiTT dataset contains 1800 projections with 0.1 degrees interval with a size of 2048x1800 pixels each (0.65 μm per pixel).
 
-In Fig. \autoref{fig:Figura2} we show examples of the projections used for the reconstrction process and a veiew of the 3D volume otained using the plugin with the ToMoDL option.
+In Fig. \autoref{fig:Figura2} we show examples of the projections used for the reconstruction process and a view of the 3D volume otained using the plugin with the ToMoDL option. The volumes were fully rendered using in-built napari capabilities, allowing for a full integration on the data analysis workflow of the platform.
 
 ![\textbf{Reconstruction use cases}. Left panels: 2D reconstruction slices using undersampled data (10 degrees interval) with FBP and ToMoDL methods (OPT, X-ray and synchrotron HiTT). Right panels: 3D views of undersampled reconstructions.\label{fig:Figura2}](./napari-tomodl/figures/Figura2.pdf)
 
-
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+M.O was supported by Marie Skłodowska-Curie 
 
 # References
