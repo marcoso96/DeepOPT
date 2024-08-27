@@ -9,23 +9,24 @@ authors:
     affiliation: 3 # (Multiple affiliations must be quoted)
   - name: Germán Mato 
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: "5,6"
+    affiliation: "3,4"
   - name: Teresa Correia
     corresponding: true # (This is how to denote the corresponding author)
-    affiliation: "3,4"
+    affiliation: "5,6"
 affiliations:
  - name: Centrum Wiskunde & Informatica, Amsterdam, the Netherlands
    index: 1
  - name: University of Eastern Finland, Kuopio, Finland
    index: 2
- - name: Centre of Marine Sciences, University of Algarve, Faro, Portugal
-   index: 3
- - name: School of Biomedical Engineering and Imaging Sciences, King’s College London, London, United Kingdom
-   index: 4
  - name: Medical Physics Department, Centro Atómico Bariloche, Bariloche, Argentina
-   index: 5
+   index: 3
  - name: Instituto Balseiro, Bariloche, Argentina
+   index: 4
+ - name: Centre of Marine Sciences, University of Algarve, Faro, Portugal
+   index: 5
+ - name: School of Biomedical Engineering and Imaging Sciences, King’s College London, London, United Kingdom
    index: 6
+
 date: 
 bibliography: paper.bib
 
