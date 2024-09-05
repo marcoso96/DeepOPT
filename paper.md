@@ -70,7 +70,7 @@ The reconstruction methods implemented in the packages are:
 - **U-Net** is a deep learning architecture for tomographic reconstruction that uses a U-shaped network with skip ­connections [@ronneberger2015u]. The proposed network in [@davis2019convolutional] processes undersampled FBP reconstructions and outputs streak-free 2D images. Skip connections help preserve fine details in the reconstruction, so that the network can handle complex geometries and noisy data. While reconstruction times for this approach are short, making it suitable for real-time imaging, training a U-Net requires large amounts of data.
 - **ToMoDL** is a method that combines iteration over a data consistency step and an image domain artefact removal step achieved by a convolutional neural network. The data consistency step is implemented using the gradient conjugate algorithm and the artefact removal via a deep neural network with shared weights across iterations. As the forward model is explicitly accounted for, the number of network parameters to be learned is significantly reduced compared to direct inversion approaches, providing better performance in settings where training data is constrained [@obando2023model].
 
-In Fig. \autoref{fig:workflow}, a complete pipeline describing the usage of napari-tomodl is presented. Based on the single-channel raw data acquired by a parallel tomography use-case, this ordered stack of files undergoes the following steps in order to obtain ready-to-analyse reconstructions:
+In \autoref{fig:Workflow}, a complete pipeline describing the usage of napari-tomodl is presented. Based on the single-channel raw data acquired by a parallel tomography use-case, this ordered stack of files undergoes the following steps in order to obtain ready-to-analyse reconstructions:
 
 1. Load the raw image stack using napari file manager tab, obtaining a new raw 3D image layer.
 2. Over the plugin's sliding window, select the target raw image layer and click over the "Select image layer" button.
@@ -82,21 +82,21 @@ In Fig. \autoref{fig:workflow}, a complete pipeline describing the usage of napa
 
 Once these steps are completed, the 'Reconstruction' button allows for executing the desired specifications for image recovery from projections. In napari, outputs are written as image layers which can be analysed by other plugins and saved in different formats. One special feature that napari offers on top of 3D images is volume renderization, useful once a full volume is computed with the presented plugin. Normalization of intensity and contrast can be also applied to specific layers using napari's built-in tools in the top-left bar.
 
-![\textbf{Napari-tomodl usage pipeline.} step-by-step from a stack of raw projection acquisition to reconstruction of single specific slice or full volume.\label{fig:Workflow}](./napari-tomodl/figures/Figura1_v2.pdf)
+![\textbf{Napari-tomodl usage pipeline.} step-by-step from a stack of raw projection acquisition to reconstruction of single specific slice or full volume.\label{fig:Workflow}](./napari-tomodl/figures/Figura1_v3.pdf)
 
 # Use cases
 
 We present three parallel tomography use cases for the napari-tomodl plugin:
 
 1. Optical projection tomography (OPT)
-Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained using a 4x magnification objective. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 1 degree. The acquired projections have 700 × 700 pixels with a resolution of 1.3 μm per pixel [@bassi2015optical]. These projections were resampled to have a resolution of 100 × 100 pixels in order to reduce the computational complexity.
+Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained using a 4x magnification objective. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 1 degree. The acquired projections have 2506x768 pixels with a resolution of 1.3 μm per pixel [@bassi2015optical]. These projections were resampled to have a resolution of 627 × 192 pixels in order to reduce the computational complexity.
 of the training phase.
 2. High resolution X-ray parallel tomography (X-ray CT)
 Projection data from a foramnifera were obtained using 20 KeV X rays and a high resolution detector with 1024x1280 pixels (5 μm per pixel). A rotatory support was used to acquire 360 projections with 1 degree interval. The projections were resampled to 256x320 to reduce computational complexity. The raw data was processed using phase contrast techniques to improve contrast [@Paganin2002]. 
 3. High Throughput Tomography (HiTT).
-Projection data from a mosquito gut, osmium stained and resin embedded using a phase-contrast imaging platform for life-science samples on the EMBL beamline [@albers2024high]. The HiTT dataset contains 1800 projections with 0.1 degrees interval with a size of 2048x1800 pixels each (0.65 μm per pixel). RESIze
+Projection data from a mosquito gut, osmium stained and resin embedded using a phase-contrast imaging platform for life-science samples on the EMBL beamline [@albers2024high]. The HiTT dataset contains 1800 projections with 0.1 degrees interval with a size of 2048x1800 pixels each (0.65 μm per pixel). The projections were resampled to have a resolution of 512x510 pixels.
 
-In Fig. \autoref{fig:Figura2} we show examples of the projections used for the reconstruction process and a view of the 3D volume otained using the plugin with the ToMoDL option. The volumes were fully rendered using in-built napari capabilities, allowing for a full integration on the data analysis workflow of the platform.
+In \autoref{fig:Figura2} we show examples of the projections used for the reconstruction process and a view of the 3D volume otained using the plugin with the ToMoDL option. The volumes were fully rendered using in-built napari capabilities, allowing for a full integration on the data analysis workflow of the platform.
 
 ![\textbf{Reconstruction use cases}. Left panels: 2D reconstruction slices using undersampled data (10 degrees interval) with FBP and ToMoDL methods (OPT, X-ray and synchrotron HiTT). Right panels: 3D views of undersampled reconstructions.\label{fig:Figura2}](./napari-tomodl/figures/Figura2.pdf)
 
