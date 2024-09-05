@@ -88,13 +88,8 @@ Once these steps are completed, the 'Reconstruction' button allows for executing
 
 We present three parallel tomography use cases for the napari-tomodl plugin:
 
-<<<<<<< HEAD
 1. Optical projection tomography (OPT)
 Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained using a 4x magnification objective. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 1 degree. The acquired projections have 2506x768 pixels with a resolution of 1.3 μm per pixel [@bassi2015optical]. These projections were resampled to have a resolution of 627 × 192 pixels in order to reduce the computational complexity.
-=======
-1. Optical projection tomography (OPT).
-Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained using a 4x magnification objective. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 1 degree. The acquired projections have 700 × 700 pixels with a resolution of 1.3 μm per pixel [@bassi2015optical]. These projections were resampled to have a resolution of 100 × 100 pixels in order to reduce the computational complexity.
->>>>>>> d0b88c64ff2441a197540ad0fba98534a9e7546a
 of the training phase.
 2. High resolution X-ray parallel tomography (X-ray CT).
 Projection data from a foramnifera were obtained using 20 KeV X rays and a high resolution detector with 1024x1280 pixels (5 μm per pixel). A rotatory support was used to acquire 360 projections with 1 degree interval. The projections were resampled to 256x320 to reduce computational complexity. The raw data was processed using phase contrast techniques to improve contrast [@Paganin2002]. 
