@@ -96,9 +96,9 @@ Projection data from a foramnifera were obtained using 20 KeV X rays and a high 
 3. High Throughput Tomography (HiTT).
 Projection data from a mosquito gut, osmium stained and resin embedded using a phase-contrast imaging platform for life-science samples on the EMBL beamline [@albers2024high]. The HiTT dataset contains 1800 projections with 0.1 degrees interval with a size of 2048x1800 pixels each (0.65 μm per pixel). The projections were resampled to have a resolution of 512x510 pixels.
 
-In \autoref{fig:Figura2} we show examples of the projections used for the reconstruction process and a view of the 3D volume otained using the plugin with the ToMoDL option. The volumes were fully rendered using in-built napari capabilities, allowing for a full integration on the data analysis workflow of the platform.
+In \autoref{fig:Figura2} we show examples of the projections used for the reconstruction process and a view of the 3D volume obtained using the plugin with the ToMoDL option. The volumes were fully rendered using in-built napari capabilities, allowing for a full integration on the data analysis workflow of the platform. 
 
-![\textbf{Reconstruction use cases}. Left panels: 2D reconstruction slices using undersampled data (10 degrees interval) with FBP and ToMoDL methods (OPT, X-ray and synchrotron HiTT). Right panels: 3D views of undersampled reconstructions.\label{fig:Figura2}](./napari-tomodl/figures/Figura2.pdf)
+![\textbf{Reconstruction use cases}. Left panels: 2D reconstruction slices using undersampled data with FBP and ToMoDL methods (OPT, X-ray and synchrotron HiTT). In parenthesis, acceleration factor, degrees per step and rotational section acquisition). Right panels: 3D views of undersampled reconstructions.\label{fig:Figura2}](./napari-tomodl/figures/Figura2.pdf)
 
 # Acknowledgements
 
