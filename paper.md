@@ -36,46 +36,46 @@ bibliography: paper.bib
 
 # Summary
 
-Recent advances in different tomographic methodologies have contributed to a broad range of applications and research areas, from x-ray imaging dealing with medical [@ginat2014advances] and industrial [@de2014industrial] applications to optical sectioning, which provides a mesoscopic framework to visualise translucent samples [@sharpe2004optical], just to name a few. Once data is acquired, we face several challenges: first, artifacts should be corrected in a preprocessing stage if needed, then  raw projections should be reconstructed via a mathematical algorithm, and, finally, the results should be visualised in a suitable way.
+Recent advances in different tomographic methodologies have contributed to a broad range of applications and research areas, from x-ray imaging dealing with medical [@ginat2014advances] and industrial [@de2014industrial] applications to optical sectioning, which provides a mesoscopic framework to visualise translucent samples [@sharpe2004optical], just to name a few. Tomographic imaging involves acquiring raw data (2D projections) from various angles around the object of interest. Once data is acquired, we face several challenges: first, artifacts should be corrected in a preprocessing stage if needed, then,  raw projections should be reconstructed via a mathematical algorithm, and, finally, the results should be visualised in a suitable way.
 
-We present here napari-ToMoDL, a plugin of the napari viewer [@chiu2022napari]  that contains four main methods for tomographic reconstruction: filtered backprojection (FBP) [@kak2001principles], Two-step Iterative Shrinkage/Thresholding (TwIST) [@bioucas2007new], U-Net [@ronneberger2015u] [@davis2019convolutional] and ToMoDL [@obando2023model], being the last our recently introduced method for optical projection tomography reconstruction. The neural network based techniques have been trained in the PyTorch framework [@NEURIPS2019_9015] and they display excellent results when the reconstruction is performed with a very sparse set of projections [@obando2023model]. The plugin also offers the capability of axis alignment via manual selection and variance maximization [@walls2005correction]. 
+Here, we introduce napari-ToMoDL, a plugin of the napari viewer [@chiu2022napari]  that contains four main methods for tomographic reconstruction, often requiring the use of different software or toolboxes for each of these steps: filtered backprojection (FBP) [@kak2001principles], Two-step Iterative Shrinkage/Thresholding (TwIST) [@bioucas2007new], U-Net [@ronneberger2015u] [@davis2019convolutional] and ToMoDL [@obando2023model], where the latter corresponds to our recently introduced model-based deep learning reconstruction method for accelerated Optical Projection  Tomography (OPT). The neural network based techniques have been trained in the PyTorch framework [@NEURIPS2019_9015] and they display excellent results when the reconstruction is performed using a very sparse set of projections [@obando2023model]. The plugin also offers the capability of axis alignment via manual selection and variance maximization [@walls2005correction]. 
 
 The input to the plugin is a stack of projections. The user only has to determine which is the rotation axis of the system (vertical or horizontal) and choose the reconstruction method. Additional options include:
 
-- resizing
+- projection image resizing
 - manual or automatic center-of-rotation alignment
 - clip to circle
-- filtering
-- full or partial volume reconstruction
+- filtering for the backprojection method
+- full or partial volume reconstruction (selected slices)
 - data intensity inversion
 - choice of use of CPU or GPU for the reconstruction.
 
-napari-ToMoDL is integrally based on well-established open source software libraries such as NumPy [@harris2020array], Scipy [@virtanen2020scipy] and scikit-image [@scikit-image]. The neural network methods in the software are implemented in PyTorch [@NEURIPS2019_9015]. The computational burden that the Radon transform poses when applied iteratively is  overcome by using an adapted version of TorchRadon [@ronchetti2020torchradon], a fast differentiable routine for computed tomography reconstruction developed as a PyTorch extension, made available for different operating system distributions.
-
+napari-ToMoDL is integrally based on well-established open source software libraries such as NumPy [@harris2020array], Scipy [@virtanen2020scipy] and scikit-image [@scikit-image]. The neural network methods in U-Net and ToMoDL are implemented in PyTorch [@NEURIPS2019_9015]. The computational burden that the Radon transform poses when applied iteratively is  overcome by using an adapted version of TorchRadon [@ronchetti2020torchradon], a fast differentiable routine for computed tomography reconstruction developed as a PyTorch extension, for Linux, now made available.
 
 # Statement of need
 
-The problem of reconstruction of tomographic images is crucial in several areas. For this purpose, several libraries have been introduced within the Python language that alleviate this burden, such as scikit-image [@scikit-image], the ASTRA toolbox [@van2016fast] and TorchRadon [@ronchetti2020torchradon]. Nevertheless, the usage of these tools requires specific knowledge of image processing techniques and they do not form by themselves an accessible and efficient data analysis and visualisation framework that can be used by experimentalists to handle raw tomographic data.
+The problem of of tomographic images reconstruction is crucial in several areas. However, it often relies on slow iterative optimization reconstruction algorithms, particularly when reconstructing 3D images from undersampled acquisitions. For this purpose, several libraries have been introduced within the Python language that alleviate this burden, such as scikit-image [@scikit-image], the ASTRA toolbox [@van2016fast] and TorchRadon [@ronchetti2020torchradon]. Nevertheless, the usage of these tools requires specific knowledge of image processing techniques and computer programming and they do not form by themselves an accessible and efficient data analysis and visualisation framework that can be easily used by researchers performing experiments using tomographic systems.
 
-From the side of the visualisers, napari [@chiu2022napari], a fast and practical bioimaging visualiser for multidimensional data, has rapidly emerged as a hub for high performance applications spanning a broad range of imaging data, including microscopy, medical imaging, astronomical data, etc. Therefore there is a context with an extensive offer of tomographic reconstruction algorithms and a lack of software integration for image analysts, enabling them to access to other complex tasks such as segmentation [@ronneberger2015u] and tracking [@wu2016deep].
+Napari [@chiu2022napari] provides offers a fast, flexible and user-friendly viewers  for 2D and 3D image visualization of large-scale images, and has rapidly emerged  as a hub for high-performance applications including microscopy, medical imaging, astronomical data, etc. Therefore there is a context with an extensive offer of tomographic reconstruction algorithms and a lack of software integration for image analysts, enabling them to access to other complex tasks such as segmentation [@ronneberger2015u] and tracking [@wu2016deep].
 
-The software presented here intends to close the gap between a wide variety of reconstruction techniques and a powerful visualisation tool by introducing a ready-to-use widget that offers state-of-the-art methods for tomographic reconstruction as well as a framework that will allow to include future methodologies.
+The user-friendly software presented here intends to close the gap between a wide variety of reconstruction techniques and a powerful visualisation tool by introducing a ready-to-use widget that offers state-of-the-art methods for tomographic reconstruction as well as a framework that will allow to include future methodologies.
 
 # Methods and Workflow
 
-The reconstruction methods implemented in the packages are:
+The reconstruction methods implemented in the software package are:
 
-- **FBP** Filtered backprojection is a widely used method for tomographic reconstruction. The method involves filtering the data in the spatial frequency domain and then backprojecting the filtered data onto the 3D volume. The filter used in FBP is typically a ramp filter, which amplifies high-frequency components of the data. FBP is computationally efficient and works well for simple geometries, such as parallel-beam tomography.
-- **TwIST** (Two-step Iterative Shrinkage and Thresholding) is an iterative method for tomographic reconstruction, which involves solving a non-convex optimisation problem using the shrinkage and thresholding­ technique for each 2D slice. In this implementation, we chose to minimise the total variation norm as our regularising function. TwIST can handle a wide range of geometries and produces high-quality reconstructions. However, it is computationally expensive and requires careful tuning of­ parameters [@correia2015accelerated].
-- **U-Net** is a deep learning architecture for tomographic reconstruction that uses a U-shaped network with skip ­connections [@ronneberger2015u]. The proposed network in [@davis2019convolutional] processes undersampled FBP reconstructions and outputs streak-free 2D images. Skip connections help preserve fine details in the reconstruction, so that the network can handle complex geometries and noisy data. While reconstruction times for this approach are short, making it suitable for real-time imaging, training a U-Net requires large amounts of data.
-- **ToMoDL** is a method that combines iteration over a data consistency step and an image domain artefact removal step achieved by a convolutional neural network. The data consistency step is implemented using the gradient conjugate algorithm and the artefact removal via a deep neural network with shared weights across iterations. As the forward model is explicitly accounted for, the number of network parameters to be learned is significantly reduced compared to direct inversion approaches, providing better performance in settings where training data is constrained [@obando2023model].
+- **FBP** Filtered backprojection is a widely used method for tomographic reconstruction.Typically, the method involves filtering the data in the frequency domain using a ramp filter, which amplifies high-frequency components, and then backprojecting the filtered projection from multiple angles into the image domain.
+The filter used in FBP is typically a ramp filter, which amplifies high-frequency components of the data. FBP is computationally efficient and works well for simple geometries, such as parallel-beam tomography.
+- **TwIST** (Two-step Iterative Shrinkage and Thresholding) is an iterative method  for compressed sensing image reconstruction adapted for tomographic reconstruction [@correia2015accelerated], which involves solving a non-convex optimisation problem using the shrinkage and thresholding­ technique for each 2D slice. In this implementation, we chose to minimise the total variation norm as our regularising function. TwIST can handle a wide range of geometries and produces high-quality reconstructions. However, it is computationally expensive and requires careful tuning of­ parameters.
+- **U\-Net** is a deep learning architecture for tomographic reconstruction that uses a U-shaped network with skip ­connections [@ronneberger2015u]. The proposed network in [@davis2019convolutional] processes undersampled FBP reconstructions and outputs streak-free 2D images. Skip connections help preserve fine details in the reconstruction, so that the network can handle complex geometries and noisy data. While reconstruction times for this approach are short, making it suitable for real-time imaging, training a U-Net requires large amounts of data.
+- **ToMoDL** is a  model-based deep learning framework  that combines iteration over a data consistency step and an image domain artefact removal step achieved by a convolutional neural network. The data consistency step is implemented using the gradient conjugate algorithm and the artefact removal via a deep neural network with shared weights across iterations. As the forward model is explicitly accounted for, the number of network parameters to be learned is significantly reduced compared to direct inversion approaches, providing better performance in settings where training data is constrained [@obando2023model].
 
-In \autoref{fig:Workflow}, a complete pipeline describing the usage of napari-tomodl is presented. Based on the single-channel raw data acquired by a parallel tomography use-case, this ordered stack of files undergoes the following steps in order to obtain ready-to-analyse reconstructions:
+In \autoref{fig:Workflow}, a complete pipeline describing the usage of napari-tomodl is presented. Based on 1-channel raw data acquired by a parallel tomography use-case, this ordered stack of files undergoes the following steps in order to obtain ready-to-analyse reconstructions. The complete napari-tomodl pipeline is described here.
 
 1. Load the raw image stack using napari file manager tab, obtaining a new raw 3D image layer.
 2. Over the plugin's sliding window, select the target raw image layer and click over the "Select image layer" button.
-3. Rotation axis can be aligned using automatic/manual methods. For the manual way, select an integer corresponding to the pixel shift respect to the rotation axis. A single slice reconstruction (as described in step 6) is recommended for manual iteration over this step.
-4. Use filtering for reconstructions, only applying for FBP methods, and size of the reconstructed 'xy' slice.
+3. Rotation axis can be aligned using automatic/manual methods. For the manual method, select an integer corresponding to the pixel shift respect to the rotation axis. A single slice reconstruction (as described in step 6) is recommended for manual iteration over this step.
+4. Use filtering for reconstructions, only applied to FBP methods, and size of the reconstructed 'xy' slice.
 5. Choose between FBP (analytical), TwIST (iterative), U-Net or ToMoDL methods (deep learning).
 6. Choose to reconstruct full volume or single slice, specifying slice index in this case.
 7. Regarding the alignment of the loaded volume, choose rotation axis between vertical or horizontal.
@@ -86,9 +86,9 @@ Once these steps are completed, the 'Reconstruction' button allows for executing
 
 # Use cases
 
-We present three parallel tomography use cases for the napari-tomodl plugin:
+We present three parallel beam tomography use cases for the napari-tomodl plugin:
 
-1. Optical projection tomography (OPT)
+1. \textbf{Optical projection tomography} (OPT)
 Projection data of wild-type zebrafish (Danio rerio) at 5 days post fertilisation were obtained using a 4x magnification objective. Using a rotatory cylinder, transmitted projections images were acquired with an angle step of 1 degree. The acquired projections have 2506x768 pixels with a resolution of 1.3 μm per pixel [@bassi2015optical]. These projections were resampled to have a resolution of 627 × 192 pixels in order to reduce the computational complexity.
 of the training phase.
 2. High resolution X-ray parallel tomography (X-ray CT).
@@ -96,7 +96,7 @@ Projection data from a foramnifera were obtained using 20 KeV X rays and a high 
 3. High Throughput Tomography (HiTT).
 Projection data from a mosquito gut, osmium stained and resin embedded using a phase-contrast imaging platform for life-science samples on the EMBL beamline [@albers2024high]. The HiTT dataset contains 1800 projections with 0.1 degrees interval with a size of 2048x1800 pixels each (0.65 μm per pixel). The projections were resampled to have a resolution of 512x510 pixels.
 
-In \autoref{fig:Figura2} we show examples of the projections used for the reconstruction process and a view of the 3D volume obtained using the plugin with the ToMoDL option. The volumes were fully rendered using in-built napari capabilities, allowing for a full integration on the data analysis workflow of the platform. 
+In \autoref{fig:Figura2} we show examples of the projections used for the reconstruction process and a view of the 3D volume obtained using the plugin with the ToMoDL option (projection images not shown). The volumes were fully rendered using in-built napari capabilities, allowing for a full integration on the data analysis workflow of the platform. 
 
 ![\textbf{Reconstruction use cases}. Left panels: 2D reconstruction slices using undersampled data with FBP and ToMoDL methods (OPT, X-ray and synchrotron HiTT). In parenthesis, acceleration factor, degrees per step and rotational section acquisition). Right panels: 3D views of undersampled reconstructions.\label{fig:Figura2}](./napari-tomodl/figures/Figura2.pdf)
 
